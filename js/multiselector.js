@@ -338,6 +338,7 @@
 
                 return $(document.createElement("button"))
                     .addClass("btn btn-default show-all show-all-"+wrapperId)
+                    .attr('type', 'button')
 		    .append($(document.createElement('i')).addClass(multiSelector.options.icons.showAll))
                     .append($(document.createElement('span')).text(message))
                     .append(span)
@@ -374,7 +375,7 @@
                     helpers.setAntiduplicateSelectionPolicy(true);
                 }
 
-                if ($(".tokenfield").find(".multiselector-selected-item-"+wrapperId+"[data-value='" + text + "']").length) {
+                if ($(".tokenfield").find(".multiselector-selected-item-"+wrapperId+"[data-value='" + escape(text) + "']").length) {
                     helpers.setAntiduplicateSelectionPolicy(true);
                     return false;
                 }
@@ -551,7 +552,7 @@
                                 helpers.highlightItem();
                                 $("ul.multiselector-selection-"+wrapperId).find(".token-input").val("").focus();
                                 helpers.toggleShowAllButton(false);
-				helpers.callObjectAdded(objectId);
+                                multiSelector.options.objectAdded(objectId);
                                 helpers.updateInputWidth();
 
                                 return;
@@ -1462,7 +1463,7 @@
             for (var i = 0; i < multiSelector.selected.length; i++) {
                 helpers.createSelectedItem(multiSelector.selected[i].name, multiSelector.selected[i].customCssClass,
                     true, multiSelector.selected[i].memberCount);                
-		helpers.callObjectAdded(multiSelector.selected[i].id);
+               	multiSelector.options.objectAdded(multiSelector.selected[i].id);
             }
             //Handling input
             selection.keyup(handleKeyUp);
